@@ -27,7 +27,6 @@ export default function Home() {
   const completeTodo = async (id: string) => {
     try {
       setError('');
-      // Optimistic update
       setTodos(todos.filter(todo => todo.id !== id));
     } catch (err) {
       setError('Failed to complete todo');
@@ -38,7 +37,6 @@ export default function Home() {
   const undoCompleteTodo = async (id: string) => {
     try {
       setError('');
-      // Optimistic update
       setTodos((prevTodos) =>
         prevTodos.map((todo) =>
           todo.id === id ? { ...todo, completed: false } : todo
@@ -269,22 +267,15 @@ export default function Home() {
         </div>
         
         {/* Complete todo */}
-        <div className="mt-6">
-          <h3 className="text-lg font-bold text-gray-800 mb-2">Complete a todo (optional)</h3>
-          <p className="text-gray-700 mb-4"> Click to complete or undo complete a todo:</p>
-          <div className="space-y-2">
-            {todos.map((todo) => (
-              <div
-                key={todo.id}
-                onClick={() => todo.completed ? undoCompleteTodo(todo.id) : completeTodo(todo.id)}
-                className={`p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors ${todo.completed ? 'bg-green-100' : 'bg-gray-50'}`}
-              >
-                <p className={`text-gray-800 ${todo.completed ? 'line-through' : ''}`}>
-                  {todo.text}
-                </p>
-              </div>
-            ))}
-          </div>
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-bold text-gray-800 mb-3">
+            ✅ Complete a todo:
+          </h2>
+          <ol className="list-decimal list-inside space-y-2 text-gray-700">
+            <li>Click the "Delete" button next to a todo to complete it.</li>
+            <li>The todo will be removed from the list.</li>
+            <li>If you want to undo, simply add the todo again.</li>
+          </ol>
         </div>
 
         {/* Info Card */}
