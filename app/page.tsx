@@ -24,6 +24,32 @@ export default function Home() {
     });
   }; 
 
+  const completeTodo = async (id: string) => {
+    try {
+      setError('');
+      // Optimistic update
+      setTodos(todos.filter(todo => todo.id !== id));
+    } catch (err) {
+      setError('Failed to complete todo');
+      console.error('Error completing todo:', err);
+    }
+  };
+
+  const undoCompleteTodo = async (id: string) => {
+    try {
+      setError('');
+      // Optimistic update
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo.id === id ? { ...todo, completed: false } : todo
+        )
+      );
+    } catch (err) {
+      setError('Failed to undo complete todo');
+      console.error('Error undoing complete todo:', err);
+    }
+  };
+
   const fetchTodos = async () => {
     try {
       setIsLoading(true);
@@ -239,6 +265,25 @@ export default function Home() {
                 <> | Last fetched: {lastFetchTime}</>
               )}
             </p>
+          </div>
+        </div>
+        
+        {/* Complete todo */}
+        <div className="mt-6">
+          <h3 className="text-lg font-bold text-gray-800 mb-2">Complete a todo (optional)</h3>
+          <p className="text-gray-700 mb-4"> Click to complete or undo complete a todo:</p>
+          <div className="space-y-2">
+            {todos.map((todo) => (
+              <div
+                key={todo.id}
+                onClick={() => todo.completed ? undoCompleteTodo(todo.id) : completeTodo(todo.id)}
+                className={`p-4 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors ${todo.completed ? 'bg-green-100' : 'bg-gray-50'}`}
+              >
+                <p className={`text-gray-800 ${todo.completed ? 'line-through' : ''}`}>
+                  {todo.text}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 
