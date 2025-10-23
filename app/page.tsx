@@ -138,22 +138,22 @@ export default function Home() {
         )}
 
         {/* Main Card */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-grey-100 rounded-lg shadow-lg p-6 mb-6">
           {/* Add Todo Form */}
           <form onSubmit={addTodo} className="mb-6">
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <input
                 type="text"
                 value={newTodoText}
                 onChange={(e) => setNewTodoText(e.target.value)}
-                placeholder="What needs to be done?"
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Whats the next todo?"
+                className="flex-1 px-4 py-2 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 disabled={isAdding}
               />
               <button
                 type="submit"
                 disabled={isAdding || !newTodoText.trim()}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="px-6 py-2 bg-blue-800 text-white rounded-lg hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {isAdding ? 'Adding...' : 'Add Todo'}
               </button>
@@ -195,6 +195,26 @@ export default function Home() {
                   </button>
                 </div>
               ))}
+            </div>
+          )}
+          
+          {/* Change order of todos */}
+          {todos.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-lg font-bold text-gray-800 mb-2">Change order of todos</h3>
+              <ul className="list-disc list-inside space-y-1">
+                {todos.map((todo) => (
+                  <li key={todo.id} className="flex items-center justify-between">
+                    <span className="text-gray-800">{todo.text}</span>
+                    <button
+                      onClick={() => moveTodoUp(todo.id)}
+                      className="ml-4 px-2 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    >
+                      Move Up
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
 
