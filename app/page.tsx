@@ -10,6 +10,19 @@ export default function Home() {
   const [isAdding, setIsAdding] = useState(false);
   const [lastFetchTime, setLastFetchTime] = useState<string>('');
   const [error, setError] = useState<string>('');
+  
+  const moveTodoUp = (id: string) => {
+    setTodos((prevTodos) => {
+      const index = prevTodos.findIndex((todo) => todo.id === id);
+      if (index > 0) {
+        const newTodos = [...prevTodos];
+        const [movedTodo] = newTodos.splice(index, 1);
+        newTodos.splice(index - 1, 0, movedTodo);
+        return newTodos;
+      }
+      return prevTodos;
+    });
+  }; 
 
   const fetchTodos = async () => {
     try {
